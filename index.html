@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Visszaszámláló1</title>
+    <title>Visszaszámláló</title>
     <style>
         body {
             margin: 0;
@@ -14,21 +14,49 @@
             height: 100vh;
             font-family: Arial, sans-serif;
             background: linear-gradient(45deg, #f5f5dc, #8b4513); /* Bézs és barna átmenet */
+            color: #fff;
         }
 
         #countdown {
+            display: flex;
+            gap: 20px;
             font-size: 3rem;
-            color: #fff;
-            background-color: rgba(0, 0, 0, 0.5);
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        .time-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .label {
+            font-size: 1rem;
+            margin-top: 10px;
+            text-transform: uppercase;
         }
     </style>
 </head>
 <body>
 
-    <div id="countdown">00:00:00:00</div>
+    <div id="countdown">
+        <div class="time-box">
+            <span id="days">00</span>
+            <span class="label">Nap</span>
+        </div>
+        <div class="time-box">
+            <span id="hours">00</span>
+            <span class="label">Óra</span>
+        </div>
+        <div class="time-box">
+            <span id="minutes">00</span>
+            <span class="label">Perc</span>
+        </div>
+        <div class="time-box">
+            <span id="seconds">00</span>
+            <span class="label">Másodperc</span>
+        </div>
+    </div>
 
     <script>
         function countdown() {
@@ -43,8 +71,10 @@
                 const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
                 const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-                document.getElementById("countdown").innerHTML = 
-                    days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+                document.getElementById("days").innerHTML = days;
+                document.getElementById("hours").innerHTML = hours;
+                document.getElementById("minutes").innerHTML = minutes;
+                document.getElementById("seconds").innerHTML = seconds;
 
                 if (distance < 0) {
                     clearInterval(x);
@@ -58,4 +88,3 @@
 
 </body>
 </html>
-
