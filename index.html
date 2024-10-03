@@ -14,22 +14,22 @@
             align-items: center;
             height: 100vh;
             font-family: 'Roboto', sans-serif; /* Új betűtípus */
-            background: linear-gradient(45deg, #f5f5dc, #000000); /* Bézs és barna átmenet */
+            background: linear-gradient(45deg, #f5f5dc, #8b4513); /* Bézs és barna átmenet */
             color: #fff;
+            text-align: center;
         }
 
         #countdown {
             display: flex;
-            gap: 40px; /* Szélesebb elrendezés */
-            font-size: 5rem; /* Nagyobb betűméret */
-            text-align: center;
+            gap: 50px; /* Távolabb helyezkednek el egymástól */
+            font-size: 4rem; /* Nagyobb betűméret */
         }
 
         .time-box {
             display: flex;
             flex-direction: column;
             align-items: center;
-            animation: pulse 1s infinite; /* Animáció */
+            transition: transform 0.5s ease, opacity 0.5s ease;
         }
 
         .label {
@@ -38,12 +38,32 @@
             text-transform: uppercase;
         }
 
-        @keyframes pulse {
-            0%, 100% {
-                transform: scale(1);
+        /* Félpercenként futó animáció */
+        @keyframes spinAndFade {
+            0% {
+                transform: rotate(0deg);
+                opacity: 1;
             }
             50% {
-                transform: scale(1.1);
+                transform: rotate(360deg);
+                opacity: 0.5;
+            }
+            100% {
+                transform: rotate(720deg);
+                opacity: 1;
+            }
+        }
+
+        /* Media query a mobiltelefonokhoz */
+        @media (max-width: 600px) {
+            #countdown {
+                flex-direction: column;
+                gap: 30px;
+                font-size: 3rem;
+            }
+
+            .label {
+                font-size: 1rem;
             }
         }
     </style>
@@ -51,19 +71,19 @@
 <body>
 
     <div id="countdown">
-        <div class="time-box">
+        <div class="time-box" id="days-box">
             <span id="days">00</span>
             <span class="label">Nap</span>
         </div>
-        <div class="time-box">
+        <div class="time-box" id="hours-box">
             <span id="hours">00</span>
             <span class="label">Óra</span>
         </div>
-        <div class="time-box">
+        <div class="time-box" id="minutes-box">
             <span id="minutes">00</span>
             <span class="label">Perc</span>
         </div>
-        <div class="time-box">
+        <div class="time-box" id="seconds-box">
             <span id="seconds">00</span>
             <span class="label">Másodperc</span>
         </div>
@@ -93,6 +113,19 @@
                 }
             }, 1000);
         }
+
+        function addAnimation() {
+            const elements = document.querySelectorAll('.time-box');
+            elements.forEach(element => {
+                element.style.animation = "spinAndFade 1.5s ease";
+                setTimeout(() => {
+                    element.style.animation = ""; // Animáció resetelése
+                }, 1500);
+            });
+        }
+
+        // Félpercenként futó animáció
+        setInterval(addAnimation, 30000); // 30 másodpercenként
 
         countdown();
     </script>
