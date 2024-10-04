@@ -13,23 +13,24 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            font-family: 'Roboto', sans-serif; /* Új betűtípus */
-            background: linear-gradient(45deg, #f5f5dc, #8b4513); /* Bézs és barna átmenet */
+            font-family: 'Roboto', sans-serif;
+            background: radial-gradient(circle, rgba(245, 245, 220, 1) 0%, rgba(139, 69, 19, 1) 100%); /* Bézs és barna háttéreffekt */
             color: #fff;
             text-align: center;
+            overflow: hidden; /* Túlcsordulás kikapcsolása */
         }
 
         #countdown {
             display: flex;
-            gap: 50px; /* Távolabb helyezkednek el egymástól */
-            font-size: 4rem; /* Nagyobb betűméret */
+            gap: 50px; /* Távolság az elemek között */
+            font-size: 4rem;
         }
 
         .time-box {
             display: flex;
             flex-direction: column;
             align-items: center;
-            transition: transform 0.5s ease, opacity 0.5s ease;
+            position: relative;
         }
 
         .label {
@@ -38,23 +39,54 @@
             text-transform: uppercase;
         }
 
-        /* Félpercenként futó animáció */
-        @keyframes spinAndFade {
-            0% {
-                transform: rotate(0deg);
-                opacity: 1;
+        /* Betűeffekt: lassú fénylés */
+        .time-box span {
+            animation: glow 1s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 10px #fff, 0 0 20px #ff00ff, 0 0 30px #ff00ff, 0 0 40px #ff00ff;
             }
-            50% {
-                transform: rotate(360deg);
-                opacity: 0.5;
-            }
-            100% {
-                transform: rotate(720deg);
-                opacity: 1;
+            to {
+                text-shadow: 0 0 20px #fff, 0 0 30px #ff00ff, 0 0 40px #ff00ff, 0 0 50px #ff00ff;
             }
         }
 
-        /* Media query a mobiltelefonokhoz */
+        /* Háttéreffekt: lassú mozgás */
+        @keyframes backgroundAnimation {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        body {
+            background: linear-gradient(270deg, #f5f5dc, #8b4513);
+            background-size: 400% 400%;
+            animation: backgroundAnimation 20s ease infinite;
+        }
+
+        /* Villogó effekt 10 mp-ként */
+        @keyframes flash {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0;
+            }
+        }
+
+        .flash {
+            animation: flash 1s ease-in-out;
+        }
+
+        /* Mobil optimalizálás */
         @media (max-width: 600px) {
             #countdown {
                 flex-direction: column;
@@ -114,18 +146,18 @@
             }, 1000);
         }
 
-        function addAnimation() {
-            const elements = document.querySelectorAll('.time-box');
-            elements.forEach(element => {
-                element.style.animation = "spinAndFade 1.5s ease";
-                setTimeout(() => {
-                    element.style.animation = ""; // Animáció resetelése
-                }, 1500);
-            });
+        // Villogó effekt 10 másodpercenként
+        function flashAnimation() {
+            const countdown = document.getElementById("countdown");
+            countdown.classList.add("flash");
+
+            setTimeout(() => {
+                countdown.classList.remove("flash");
+            }, 1000); // Villogás hossza
         }
 
-        // Félpercenként futó animáció
-        setInterval(addAnimation, 30000); // 30 másodpercenként
+        // 10 másodpercenként futó villogás
+        setInterval(flashAnimation, 10000);
 
         countdown();
     </script>
